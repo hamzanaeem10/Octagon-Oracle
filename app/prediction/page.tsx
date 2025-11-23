@@ -3,12 +3,26 @@
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { CountdownTimer } from "@/components/CountdownTimer";
-import { ArrowRight, TrendingUp, AlertTriangle, BarChart2, Brain, Target } from "lucide-react";
+import { ArrowRight, TrendingUp, AlertTriangle, BarChart2, Brain, Target, Share2, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function PredictionPage() {
     const [persona, setPersona] = useState<"FAN" | "COACH">("FAN");
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            router.push("/login");
+        }
+    }, [isAuthenticated, router]);
+
+    if (!isAuthenticated) return null;
 
     return (
         <div className="min-h-screen bg-black pt-16">
@@ -61,10 +75,43 @@ export default function PredictionPage() {
 
                 {/* AI Prediction Card */}
                 <div className="mb-16">
-                    <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-3xl font-display uppercase text-white">AI Prediction Analysis</h2>
-                        <div className="bg-octagon-gold/10 text-octagon-gold px-3 py-1 rounded text-xs font-bold uppercase border border-octagon-gold/20">
-                            Confidence: High (87%)
+                    <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+                        <div className="flex items-center gap-4">
+                            <h2 className="text-3xl font-display uppercase text-white">AI Prediction Analysis</h2>
+                            <div className="bg-octagon-gold/10 text-octagon-gold px-3 py-1 rounded text-xs font-bold uppercase border border-octagon-gold/20">
+                                Confidence: High (87%)
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    if (navigator.share) {
+                                        navigator.share({
+                                            title: 'UFC Prediction: Tsarukyan vs Hooker',
+                                            text: 'Check out this AI prediction on Octagon Oracle!',
+                                            url: window.location.href
+                                        });
+                                    } else {
+                                        navigator.clipboard.writeText(window.location.href);
+                                        alert('Link copied to clipboard!');
+                                    }
+                                }}
+                            >
+                                <Share2 className="w-4 h-4 mr-2" />
+                                Share
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    alert('Export functionality will generate a downloadable image of this prediction.');
+                                }}
+                            >
+                                <Download className="w-4 h-4 mr-2" />
+                                Export
+                            </Button>
                         </div>
                     </div>
 

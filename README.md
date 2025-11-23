@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Octagon Oracle 🥊🔮
 
-## Getting Started
+**The Ultimate AI-Powered MMA Analytics & Training Platform**
 
-First, run the development server:
+## Overview
+Octagon Oracle is a cutting-edge web application designed to revolutionize how fighters train and how fans engage with Mixed Martial Arts. By leveraging advanced analytics and AI concepts, it provides tailored insights for two distinct user personas: **Coaches/Fighters** and **Fans/Learners**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Key Features
+
+### For Coaches & Fighters 🥋
+*   **Advanced Dashboard**: Track training sessions, performance metrics, and upcoming bouts.
+*   **Fighter Comparison**: Deep-dive statistical analysis with radar charts comparing striking, grappling, and cardio.
+*   **Training Roadmaps**: Structured curriculum from amateur to pro levels.
+*   **Gym Finder**: Locate top-rated training facilities with Google Maps integration.
+
+### For Fans & Learners 📺
+*   **AI Predictions**: Data-driven fight outcome predictions with confidence scores and key victory factors.
+*   **Form Correction**: AI-powered webcam tool to analyze and improve striking technique (Jab, Cross, Hook).
+*   **Self-Defense Guide**: Curated resources for personal safety.
+*   **Interactive Polls & History**: Track your prediction accuracy against the AI.
+
+## 🛠️ Tech Stack
+*   **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+*   **Language**: [TypeScript](https://www.typescriptlang.org/)
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+*   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+*   **Icons**: [Lucide React](https://lucide.dev/)
+*   **Maps**: [Google Maps API](https://developers.google.com/maps)
+*   **State Management**: React Context API (`AuthContext`)
+
+## 🏁 Getting Started
+
+### Prerequisites
+*   Node.js 18+ installed
+*   npm or yarn
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/yourusername/octagon-oracle.git
+    cd octagon-oracle
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up Environment Variables**
+    Create a `.env.local` file in the root directory and add your Google Maps API key:
+    ```env
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here
+    ```
+    *(Note: The current build uses a placeholder in `app/gyms/page.tsx`. For full functionality, replace it with a valid key.)*
+
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+
+5.  **Open your browser**
+    Navigate to `http://localhost:3000` to see the app in action.
+
+## 📂 Project Structure
+
+```
+octagon-oracle/
+├── app/                # Next.js App Router pages
+│   ├── (auth)/         # Authentication routes (Login/Register)
+│   ├── dashboard/      # Role-based dashboards
+│   ├── comparison/     # Fighter comparison tool
+│   ├── form-check/     # AI camera analysis
+│   ├── gyms/           # Map integration
+│   ├── prediction/     # Fight predictions
+│   └── ...
+├── components/         # Reusable UI components
+│   ├── ui/             # Basic UI elements (Buttons, Cards, Inputs)
+│   ├── charts/         # Data visualization
+│   └── ...
+├── contexts/           # Global state (AuthContext)
+├── lib/                # Utilities and mock data
+└── public/             # Static assets (images, logos)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔮 Future Roadmap
+*   **Backend Integration**: Connect to a robust backend (Node.js/Python) for real-time user data persistence.
+*   **Live AI Models**: Integrate TensorFlow.js or PyTorch for real-time video pose estimation and predictive modeling.
+*   **Social Features**: Community forums, fight clubs, and leaderboard challenges.
+*   **Mobile App**: React Native adaptation for on-the-go training.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📄 License
+This project is licensed under the MIT License.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Built with ❤️ for the MMA Community.*

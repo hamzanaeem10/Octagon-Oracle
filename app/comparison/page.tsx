@@ -1,6 +1,8 @@
+"use client";
+
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Search, BarChart2, ArrowRightLeft } from "lucide-react";
+import { Search, BarChart2, ArrowRightLeft, Share2, Download, Target, Brain } from "lucide-react";
 import { FighterRadarChart } from "@/components/charts/FighterRadarChart";
 
 export default function ComparisonPage() {
@@ -127,6 +129,101 @@ export default function ComparisonPage() {
                         />
                     </div>
                 </Card>
+
+                {/* Training Suggestions */}
+                <Card variant="glass" className="p-8 mt-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-display uppercase text-white flex items-center">
+                            <Brain className="w-6 h-6 mr-3 text-octagon-gold" />
+                            Training Suggestions
+                        </h2>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                                alert('Export functionality will generate a downloadable comparison report.');
+                            }}
+                        >
+                            <Download className="w-4 h-4 mr-2" />
+                            Export Comparison
+                        </Button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Conor's Suggestions */}
+                        <div>
+                            <h3 className="text-lg font-display text-octagon-gold mb-4 flex items-center">
+                                <Target className="w-5 h-5 mr-2" />
+                                For Conor McGregor
+                            </h3>
+                            <div className="space-y-3">
+                                <SuggestionItem
+                                    title="Improve Takedown Defense"
+                                    description="Focus on sprawl drills and cage work to counter Khabib's wrestling pressure"
+                                    priority="high"
+                                />
+                                <SuggestionItem
+                                    title="Cardio Conditioning"
+                                    description="Increase stamina training for later rounds - 5-round sparring sessions"
+                                    priority="high"
+                                />
+                                <SuggestionItem
+                                    title="Ground Game Development"
+                                    description="Work on defensive BJJ and getting back to feet quickly"
+                                    priority="medium"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Khabib's Suggestions */}
+                        <div>
+                            <h3 className="text-lg font-display text-octagon-red mb-4 flex items-center">
+                                <Target className="w-5 h-5 mr-2" />
+                                For Khabib Nurmagomedov
+                            </h3>
+                            <div className="space-y-3">
+                                <SuggestionItem
+                                    title="Striking Defense"
+                                    description="Improve head movement and footwork to avoid Conor's power shots"
+                                    priority="high"
+                                />
+                                <SuggestionItem
+                                    title="Closing Distance"
+                                    description="Practice level changes and entries against southpaw strikers"
+                                    priority="medium"
+                                />
+                                <SuggestionItem
+                                    title="Maintain Pressure"
+                                    description="Continue dominant grappling approach - it's your biggest advantage"
+                                    priority="low"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+        </div>
+    );
+}
+
+function SuggestionItem({ title, description, priority }: { title: string; description: string; priority: "high" | "medium" | "low" }) {
+    const priorityColors = {
+        high: "border-octagon-red/50 bg-octagon-red/10",
+        medium: "border-octagon-gold/50 bg-octagon-gold/10",
+        low: "border-white/20 bg-white/5"
+    };
+
+    return (
+        <div className={`p-4 rounded border ${priorityColors[priority]} transition-colors hover:bg-white/10`}>
+            <h4 className="text-white font-bold text-sm mb-1">{title}</h4>
+            <p className="text-gray-400 text-xs">{description}</p>
+            <div className="mt-2">
+                <span className={`text-xs uppercase font-bold ${priority === "high" ? "text-octagon-red" :
+                    priority === "medium" ? "text-octagon-gold" :
+                        "text-gray-500"
+                    }`}>
+                    {priority} priority
+                </span>
             </div>
         </div>
     );

@@ -6,10 +6,12 @@ import { ArrowRight, BarChart2, Users, MapPin, Video, Brain, Target, Shield, Tro
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { HeroScene } from "@/components/3d/HeroScene";
-
+import { useAuth } from "@/contexts/AuthContext";
 import { TOP_CONTENDERS } from "@/lib/data";
 
 export default function Home() {
+  const { isAuthenticated, user } = useAuth();
+
   return (
     <div className="min-h-screen bg-black overflow-x-hidden">
       {/* HERO SECTION */}
@@ -39,14 +41,28 @@ export default function Home() {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Link href="/register">
-              <Button variant="primary" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">Join the Octagon</Button>
-            </Link>
-            <Link href="/prediction">
-              <Button variant="outline" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">View Predictions</Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {!isAuthenticated ? (
+                <>
+                  <Link href="/register">
+                    <Button variant="primary" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">Join the Octagon</Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button variant="outline" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">Sign In to Predict</Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href={user?.role === 'coach' ? "/dashboard/coach" : "/dashboard/fan"}>
+                    <Button variant="primary" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">Go to Dashboard</Button>
+                  </Link>
+                  <Link href="/prediction">
+                    <Button variant="outline" size="lg" className="font-heading uppercase tracking-widest w-full sm:w-auto">View Predictions</Button>
+                  </Link>
+                </>
+              )}
+            </div>
           </motion.div>
         </div>
       </section>

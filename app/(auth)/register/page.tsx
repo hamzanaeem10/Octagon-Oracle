@@ -1,77 +1,194 @@
+"use client";
+
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { AlertCircle, Loader2, Dumbbell, Star, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function RegisterPage() {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState<"coach" | "fan">("fan");
+    const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const { register } = useAuth();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
+        setIsLoading(true);
+
+        try {
+            const fullName = `${firstName} ${lastName}`.trim();
+            await register(fullName, email, password, role);
+        } catch (err) {
+            setError("Registration failed. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
-        <div className="min-h-[80vh] flex items-center justify-center px-4 relative overflow-hidden py-12">
-            {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-octagon-gold/10 blur-[100px] rounded-full pointer-events-none" />
-
-            <Card variant="glass" className="w-full max-w-lg p-10 relative z-10 border-white/10">
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-display italic text-white mb-2">
-                        JOIN THE <span className="text-octagon-gold">RANKINGS</span>
-                    </h1>
-                    <p className="text-gray-400 text-sm">Create your profile and start your journey.</p>
+        <div className="flex min-h-screen bg-black">
+            {/* Left Side - Image */}
+            <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-black z-10" />
+                <img
+                    src="/images/auth-sidebar-sleek.png"
+                    alt="Octagon Oracle Fighter"
+                    className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 p-12 z-20">
+                    <h2 className="text-5xl font-display italic text-white mb-4">
+                        FORGE YOUR <span className="text-octagon-gold">LEGACY</span>
+                    </h2>
+                    <p className="text-gray-300 text-lg max-w-md">
+                        Whether you fight or follow, Octagon Oracle gives you the edge.
+                    </p>
                 </div>
+            </div>
 
-                <form className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">First Name</label>
-                            <input
-                                type="text"
-                                className="w-full bg-black/50 border border-white/10 rounded-sm p-3 text-white focus:border-octagon-gold focus:outline-none transition-colors font-heading"
-                                placeholder="Jon"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Last Name</label>
-                            <input
-                                type="text"
-                                className="w-full bg-black/50 border border-white/10 rounded-sm p-3 text-white focus:border-octagon-gold focus:outline-none transition-colors font-heading"
-                                placeholder="Jones"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Email Address</label>
-                        <input
-                            type="email"
-                            className="w-full bg-black/50 border border-white/10 rounded-sm p-3 text-white focus:border-octagon-gold focus:outline-none transition-colors font-heading"
-                            placeholder="champion@ufc.com"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Password</label>
-                        <input
-                            type="password"
-                            className="w-full bg-black/50 border border-white/10 rounded-sm p-3 text-white focus:border-octagon-gold focus:outline-none transition-colors font-heading"
-                            placeholder="••••••••"
-                        />
+            {/* Right Side - Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 relative overflow-y-auto">
+                {/* Background glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-octagon-gold/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="w-full max-w-md space-y-8 relative z-10 my-auto">
+                    <div className="text-center">
+                        <h1 className="text-3xl font-display italic text-white mb-2">CREATE ACCOUNT</h1>
+                        <p className="text-gray-400">Join the ultimate MMA analytics platform.</p>
                     </div>
 
-                    <div className="pt-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-4">Account Type</label>
+                    {/* Toggle */}
+                    <div className="flex p-1 bg-white/5 rounded-lg mb-8">
+                        <Link href="/login" className="flex-1">
+                            <button className="w-full py-2 text-sm font-bold uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+                                Log In
+                            </button>
+                        </Link>
+                        <button className="flex-1 py-2 text-sm font-bold uppercase tracking-wider bg-white/10 text-white rounded-md shadow-sm transition-all">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="border border-octagon-gold/50 bg-octagon-gold/10 p-4 rounded-sm cursor-pointer hover:bg-octagon-gold/20 transition-colors">
-                                <div className="font-display text-xl text-white mb-1">FIGHTER</div>
-                                <div className="text-xs text-gray-400">For active competitors</div>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">First Name</label>
+                                <Input
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    placeholder="Conor"
+                                    required
+                                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-octagon-gold focus:ring-octagon-gold"
+                                />
                             </div>
-                            <div className="border border-white/10 bg-black/50 p-4 rounded-sm cursor-pointer hover:bg-white/5 transition-colors">
-                                <div className="font-display text-xl text-gray-400 mb-1">FAN</div>
-                                <div className="text-xs text-gray-500">For analytics & news</div>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Last Name</label>
+                                <Input
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    placeholder="McGregor"
+                                    required
+                                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-octagon-gold focus:ring-octagon-gold"
+                                />
                             </div>
                         </div>
-                    </div>
 
-                    <Button className="w-full" size="lg" variant="secondary">Create Account</Button>
-                </form>
-                <div className="mt-8 text-center text-sm text-gray-500">
-                    Already a member? <Link href="/login" className="text-octagon-gold hover:text-white transition-colors font-bold uppercase">Log In</Link>
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Email Address</label>
+                            <Input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="fighter@octagon.com"
+                                required
+                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-octagon-gold focus:ring-octagon-gold"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Password</label>
+                            <Input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                required
+                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-octagon-gold focus:ring-octagon-gold"
+                            />
+                        </div>
+
+                        {/* Role Selection */}
+                        <div className="space-y-3">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-gray-500">Select Your Path</label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div
+                                    onClick={() => setRole("coach")}
+                                    className={cn(
+                                        "cursor-pointer relative p-4 rounded-lg border transition-all duration-300 flex flex-col items-center gap-2 group",
+                                        role === "coach"
+                                            ? "bg-octagon-gold/10 border-octagon-gold"
+                                            : "bg-white/5 border-white/10 hover:border-white/30"
+                                    )}
+                                >
+                                    <Dumbbell className={cn("w-6 h-6", role === "coach" ? "text-octagon-gold" : "text-gray-400 group-hover:text-white")} />
+                                    <span className={cn("text-xs font-bold uppercase tracking-wider", role === "coach" ? "text-white" : "text-gray-400 group-hover:text-white")}>Coach / Fighter</span>
+                                    {role === "coach" && (
+                                        <div className="absolute top-2 right-2">
+                                            <Check className="w-3 h-3 text-octagon-gold" />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div
+                                    onClick={() => setRole("fan")}
+                                    className={cn(
+                                        "cursor-pointer relative p-4 rounded-lg border transition-all duration-300 flex flex-col items-center gap-2 group",
+                                        role === "fan"
+                                            ? "bg-octagon-red/10 border-octagon-red"
+                                            : "bg-white/5 border-white/10 hover:border-white/30"
+                                    )}
+                                >
+                                    <Star className={cn("w-6 h-6", role === "fan" ? "text-octagon-red" : "text-gray-400 group-hover:text-white")} />
+                                    <span className={cn("text-xs font-bold uppercase tracking-wider", role === "fan" ? "text-white" : "text-gray-400 group-hover:text-white")}>Fan / Learner</span>
+                                    {role === "fan" && (
+                                        <div className="absolute top-2 right-2">
+                                            <Check className="w-3 h-3 text-octagon-red" />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {error && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="p-3 rounded bg-red-500/10 border border-red-500/20 flex items-center gap-2 text-red-500 text-sm"
+                            >
+                                <AlertCircle className="w-4 h-4" />
+                                {error}
+                            </motion.div>
+                        )}
+
+                        <Button
+                            type="submit"
+                            variant="primary"
+                            className="w-full py-6 text-lg font-heading uppercase tracking-widest"
+                            disabled={isLoading}
+                        >
+                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create Account"}
+                        </Button>
+                    </form>
                 </div>
-            </Card>
+            </div>
         </div>
     );
 }
