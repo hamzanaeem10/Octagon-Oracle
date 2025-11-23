@@ -62,6 +62,22 @@ Octagon Oracle is a cutting-edge web application designed to revolutionize how f
 5.  **Open your browser**
     Navigate to `http://localhost:3000` to see the app in action.
 
+### 🐳 Running with Docker
+
+If you prefer to run the application in a containerized environment:
+
+1.  **Ensure Docker is running** on your machine.
+2.  **Run the container** using Docker Compose:
+    ```bash
+    docker compose up --build -d
+    ```
+3.  **Access the App**:
+    Open `http://localhost:3000` in your browser.
+4.  **Stop the Container**:
+    ```bash
+    docker compose down
+    ```
+
 ## 📂 Project Structure
 
 ```
