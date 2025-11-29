@@ -202,7 +202,7 @@ GET /api/health
 | `NODE_ENV` | Environment mode | `development` |
 | `FRONTEND_PORT` | Frontend port | `3001` |
 | `BACKEND_PORT` | Backend port | `5001` |
-| `MONGO_PORT` | MongoDB port | `27017` |
+| `MONGO_PORT` | MongoDB port | `27018` |
 | `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/octagon-oracle` |
 | `JWT_SECRET` | JWT signing secret | (change in production!) |
 | `JWT_EXPIRES_IN` | Token expiration | `7d` |
@@ -280,15 +280,7 @@ MongoDB is automatically set up when you run `docker-compose up`. The database i
    db.events.find({ status: 'upcoming' }).sort({ date: 1 })
    ```
 
-### Using MongoDB Atlas (Cloud)
 
-1. Create free account at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Create a free M0 cluster
-3. Get connection string
-4. Update `.env`:
-   ```
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/octagon-oracle
-   ```
 
 ## 🤝 Contributing
 
